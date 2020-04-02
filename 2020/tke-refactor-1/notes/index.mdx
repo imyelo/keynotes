@@ -1,0 +1,141 @@
+import { themes } from 'mdx-deck'
+import { CodeSurfer } from "code-surfer"
+import { vsDark } from "@code-surfer/themes"
+import Highlighter from 'react-syntax-highlighter'
+
+export const theme = vsDark
+
+# TKE 前端代码优化
+
+---
+
+# 表单处理
+
+---
+
+<CodeSurfer>
+
+```jsx file="./snippets/search-1-1.jsx"
+```
+
+```jsx 3,13 file="./snippets/search-1-2.jsx"
+```
+
+```jsx 5:14,18:28 file="./snippets/search-1-3.jsx"
+```
+
+```jsx file="./snippets/search-1-3.jsx"
+```
+
+</CodeSurfer>
+
+---
+
+<CodeSurfer>
+
+```jsx file="./snippets/search-1-1.jsx"
+```
+
+```jsx file="./snippets/search-2-1.jsx"
+```
+
+```jsx file="./snippets/search-2-2.jsx"
+```
+
+```jsx 6 file="./snippets/search-2-2.jsx"
+```
+
+```jsx 7:15 file="./snippets/search-2-2.jsx"
+```
+
+```jsx 26 file="./snippets/search-2-2.jsx"
+```
+
+```jsx 29 file="./snippets/search-2-2.jsx"
+```
+
+```jsx file="./snippets/search-2-2.jsx"
+```
+
+</CodeSurfer>
+
+---
+
+<CodeSurfer>
+
+```jsx 2:3 file="./snippets/form-component.jsx"
+```
+
+```jsx 12 file="./snippets/form-component.jsx"
+```
+
+```jsx 5:10 file="./snippets/form-component.jsx"
+```
+
+```jsx 14:16 file="./snippets/form-component.jsx"
+```
+
+```jsx 30:41 file="./snippets/form-component.jsx"
+```
+
+```jsx 42:61 file="./snippets/form-component.jsx"
+```
+
+```jsx 28 file="./snippets/form-component.jsx"
+```
+
+</CodeSurfer>
+
+---
+
+<CodeSurfer>
+
+```jsx file="./snippets/form-1-1.jsx"
+```
+
+```jsx 14:16 file="./snippets/form-1-1.jsx"
+```
+
+```jsx file="./snippets/form-1-2.jsx"
+```
+
+</CodeSurfer>
+
+---
+
+# Dialog
+
+---
+
+# Roadmap
+
+0. git rebase
+1. 使用 Function Component 重构旧组件
+2. Redux 表单去耦合
+3. 跨组件状态管理优化
+4. 优化代码组织结构
+5. 优化项目构建速度
+6. 梳理数据配置 (tke/config)
+    - 数据转换
+    - 数据展示
+7. 增加面向业务的数据转换层
+8. 整理 Mock
+9. 整理异常码
+10. 整理数据展示组件
+
+---
+
+# References
+
+- [React - Context](https://reactjs.org/docs/context.html)
+- [React - createElement()](https://reactjs.org/docs/react-api.html#createelement)
+- [rc-field-form](https://github.com/react-component/field-form)
+- [React - Introducting Hooks](https://reactjs.org/docs/hooks-intro.html)
+- [@umijs/useRequest](https://hooks.umijs.org/async)
+- [constate](https://github.com/diegohaz/constate)
+- [Functional vs Class-Components in React](https://medium.com/@Zwenza/functional-vs-class-components-in-react-231e3fbd7108)
+
+---
+
+# The End
+

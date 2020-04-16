@@ -1,0 +1,11 @@
+<form id="form">
+  <input name="keyword" placeholder="请输入用户 AppID 或集群 ID 查询" />
+</form>
+
+<script>
+document.getElementById('form').addEventListener('submit', event => {
+  event.preventDefault()
+  const form = new FormData(event.currentTarget)
+  // ... do request with `form.get('keyword')`
+})
+</script>

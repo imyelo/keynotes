@@ -1,0 +1,22 @@
+export default ({ onSubmit }) => {
+  return (
+    <Form onSubmit={onSubmit}>
+      {(form) => {
+        const errors = form.getFieldErrors()
+        return (<>
+          <Field name="username" validate={someValidators}>
+            <input placeholder="username" />
+          </Field>
+          <Field name="password" validate={someValidators}>
+            <input placeholder="password" />
+          </Field>
+          <Field name="captcha" validate={someValidators}>
+            <input placeholder="captcha" />
+          </Field>
+          <button>Submit</button>
+          { errors.length > 0 ? <p className="error">{errors[0].message}</p> : null }
+        </>)
+      }}
+    </Form>
+  )
+}

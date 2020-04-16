@@ -1,0 +1,16 @@
+export default ({ onSubmit }) => {
+  return (
+    <Form onSubmit={onSubmit}>
+      <Field name="username">
+        <input placeholder="username" />
+      </Field>
+      <Field name="password">
+        <input placeholder="password" />
+      </Field>
+      <Field name="captcha">
+        <input placeholder="captcha" />
+      </Field>
+      <button>Submit</button>
+    </Form>
+  )
+}

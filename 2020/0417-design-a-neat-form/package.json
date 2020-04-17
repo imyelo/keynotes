@@ -5,7 +5,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "mdx-deck ./notes/index.mdx"
+    "start": "mdx-deck ./notes/index.mdx",
+    "build": "mdx-deck build ./notes/index.mdx"
   },
   "keywords": [],
   "author": "",

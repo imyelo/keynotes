@@ -17,7 +17,7 @@ https://webpack.js.org/blog/2020-10-10-webpack-5-release
 
 ---
 
-### 通用优化
+### 构建能力优化
 
 - Persistent Caching
 - Tree Shaking
@@ -138,14 +138,116 @@ URIs
 - 最低要求 Node.js 版本升级
 - 支持异步 WebAssembly 模块
 - 更丰富的 target 配置 
+- ...
 
 ---
 
-### Module Federation
+### Module Federation !
 
 ---
 
 ![1_LYa-AhLhP0-3q2O9liL13w.png](https://i.loli.net/2020/10/23/pifreZvRjOh2bGa.png)
+
+---
+
+<CodeSurferColumns>
+<Step>
+
+```js file="../playground/stage1/app1/webpack.config.js" title="app1/src/App.js"
+```
+
+```js file="../playground/stage1/app1/src/App.js" title="app1/webpack.config.js"
+```
+
+</Step>
+
+<Step>
+
+```js file="../playground/stage1/app2/webpack.config.js" title="app2/src/App.js"
+```
+
+```js file="../playground/stage1/app2/src/App.js" title="app2/webpack.config.js"
+```
+
+</Step>
+</CodeSurferColumns>
+
+---
+
+<CodeSurfer>
+
+```js file="../playground/stage1/app2/src/Button.js" title="app2/src/Button.js"
+```
+
+</CodeSurfer>
+
+---
+
+Expose the Button
+
+---
+
+<CodeSurferColumns>
+<Step>
+
+```js file="../playground/stage1/app1/webpack.config.js" title="app1/webpack.config.js"
+```
+
+```js file="../playground/stage1/app2/webpack.config.js" title="app2/webpack.config.js"
+```
+
+</Step>
+<Step>
+
+```js file="../playground/stage2/app1/webpack.config.js" title="app1/webpack.config.js"
+```
+
+```js file="../playground/stage2/app2/webpack.config.js" title="app2/webpack.config.js"
+```
+
+</Step>
+</CodeSurferColumns>
+
+---
+<CodeSurferColumns>
+<Step>
+
+```js file="../playground/stage1/app1/src/App.js" title="app1/src/App.js"
+```
+
+</Step>
+<Step>
+
+```js file="../playground/stage2/app1/src/App.js" title="app1/src/App.js"
+```
+
+</Step>
+</CodeSurferColumns>
+
+---
+
+with Async Import
+
+---
+
+<CodeSurferColumns>
+<Step>
+
+```js file="../playground/stage2/app1/src/App.js" title="app1/src/App.js"
+```
+
+</Step>
+<Step>
+
+```js file="../playground/stage3/app1/src/App.js" title="app1/src/App.js"
+```
+
+</Step>
+</CodeSurferColumns>
+
+---
+
+[Full Example](https://github.com/module-federation/module-federation-examples/tree/cb3cd29/basic-host-remote)
 
 ---
 
@@ -212,15 +314,21 @@ URIs
 - https://webpack.js.org/migrate/5/
 - https://github.com/webpack-contrib/cache-loader/
 - https://github.com/webpack/enhanced-resolve
+
+---
+
+## 参考
+
 - https://www.youtube.com/watch?v=D3XYAx30CNc
 - https://zhuanlan.zhihu.com/p/120462530
 - https://dev.to/marais/webpack-5-and-module-federation-4j1i
 - https://medium.com/swlh/webpack-5-module-federation-a-game-changer-to-javascript-architecture-bcdd30e02669
 - https://medium.com/@ScriptedAlchemy/webpack-5-module-federation-stitching-two-simple-bundles-together-fe4e6a069716
+- https://github.com/module-federation/module-federation-examples
 
 ---
 
-## mina-webpack
+## Star tinajs / mina-webpack
 
 - https://github.com/tinajs/mina-webpack
 - https://segmentfault.com/a/1190000022023433

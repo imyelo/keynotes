@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "name": "1023-webpack-5-playground",
+  "version": "0.0.0",
+  "description": "",
+  "scripts": {
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+  }
+}

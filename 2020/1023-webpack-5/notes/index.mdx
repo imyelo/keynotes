@@ -1,0 +1,230 @@
+import { Notes, themes } from 'mdx-deck'
+import { CodeSurfer, CodeSurferColumns, Step } from "code-surfer"
+import { vsDark } from "@code-surfer/themes"
+import Highlighter from 'react-syntax-highlighter'
+
+export const theme = vsDark
+
+## New changes in Webpack 5
+
+---
+
+https://webpack.js.org/blog/2020-10-10-webpack-5-release
+
+---
+
+## 用户视角
+
+---
+
+### 通用优化
+
+- Persistent Caching
+- Tree Shaking
+
+<Notes>
+
+- 持久化缓存影响比较大
+- Tree Shaking 主要是内部优化
+
+</Notes>
+
+---
+
+### Persistent Caching
+
+<Notes>
+</Notes>
+
+---
+
+### Content Hash
+
+--- 
+
+> Webpack 5 will use a real hash of the file content when using `[contenthash]` now.   
+> 
+> Before it "only" used a hash of the internal structure.  
+> 
+> This can be positive impact on long term caching when only comments are changed or variables are renamed.  
+
+---
+
+### 针对 Web 的新特性
+
+---
+
+- **JSON modules**
+- import.meta
+- **Asset modules**
+- Native Worker
+- **URIs**
+- Async modules
+- Externals
+
+[...](https://webpack.js.org/blog/2020-10-10-webpack-5-release/#major-changes-new-web-platform-features)
+
+<Notes>
+
+1. JSON modules 是针对 ESModule 在浏览器中的标准 export default 的调整
+2. URIs 支持请求中处理协议
+3. URIs fragment
+
+URIs
+  - data:
+  - file:
+  - http(s): (experiment plugin required)
+
+- Chunks without JS 也可以理解为对 ESModule 的优化
+
+
+</Notes>
+
+---
+
+### 针对 Node.js 生态的新特性
+
+---
+
+- package.json
+  - exports
+  - imports
+- [Yarn PnP](https://yarnpkg.com/features/pnp/)
+
+[...](https://webpack.js.org/blog/2020-10-10-webpack-5-release/#major-changes-new-nodejs-ecosystem-features)
+
+---
+
+#### PnP
+
+---
+
+![node_modules.jpg](https://i.loli.net/2020/10/23/BOyT7IgQu5RKnse.jpg)
+
+---
+
+##### The node_modules problem
+
+- 产生的文件量巨大
+- 产生过程为重 I/O 操作
+- 非严格的包概念
+- 运行时依赖 Node Resolutions 大量地执行 `stat` 和  `readdir`
+- 树状的存储结构设计
+
+[...](https://yarnpkg.com/features/pnp#the-node_modules-problem)
+
+<Notes>
+
+1. 占用大量 inode, 无论写操作还是安装过程的 diff 操作都很消耗性能。
+2. 即便包管理工作可以对写操作进行优化，例如以链接的形式减少写数据体积，但依旧免不了大量 diff 操作。
+3. 导致未声明被依赖的包在恰好被嵌套依赖时能够工作，对未来产生潜在的不稳定因素
+  - "Does this file exist here? No? Let's look in the parent node_modules then. Does it exist here? Still no? Too bad..."
+4. 导致启动速度慢
+5. 导致占用文件系统空间巨大，
+
+</Notes>
+
+---
+
+- [STKE / tkex-web](https://git.woa.com/STKE/tkex-web)
+- [Compatibility](https://yarnpkg.com/features/pnp#compatibility-table)
+- [microsoft / TypeScript - Native support for PnP](https://github.com/microsoft/TypeScript/pull/35206)
+
+---
+
+### 还有什么?
+
+- enhanced-resolve 升级
+- 最低要求 Node.js 版本升级
+- 支持异步 WebAssembly 模块
+- 更丰富的 target 配置 
+
+---
+
+### Module Federation
+
+---
+
+![1_LYa-AhLhP0-3q2O9liL13w.png](https://i.loli.net/2020/10/23/pifreZvRjOh2bGa.png)
+
+---
+
+## 生态开发者视角
+
+---
+
+### 插件执行顺序提前
+
+- 仅在钩子中获取配置
+- 避免依赖配置
+
+---
+
+### 可能存在没有 Runtime 注入的场景
+
+- RuntimeModule
+
+---
+
+### 新的 Cache 类
+
+- 使用集成的缓存能力
+
+--- 
+
+### 纯 Node.js 的 Watcher
+
+- 不再依赖 chokidar & fsevents
+- 纯 Node.js fs 实现
+
+---
+
+### Source Types
+
+- 内置源类型 `javascript`, `webassembly`
+- 可扩展自定义类型
+
+---
+
+### SizeOnlySource
+
+- 代替 Compilation.assets 中的 sources
+- 减少内存占用
+
+---
+
+### 其它需要留意的调整
+
+- Tapable API 更新
+- Array -> Set, Object -> Map 迁移
+- HMR 运行时重构为运行时模块
+- 引入工作队列特性，废弃 `Compilation.semaphore`
+- modules 和 chunks 的 id 顺序不再可靠
+
+---
+
+## 参考
+
+- https://webpack.js.org/blog/2020-10-10-webpack-5-release
+- https://juejin.im/post/6882663278712094727
+- https://github.com/webpack/webpack/pull/11095
+- https://webpack.js.org/concepts/module-federation/
+- https://webpack.js.org/migrate/5/
+- https://github.com/webpack-contrib/cache-loader/
+- https://github.com/webpack/enhanced-resolve
+- https://www.youtube.com/watch?v=D3XYAx30CNc
+- https://zhuanlan.zhihu.com/p/120462530
+- https://dev.to/marais/webpack-5-and-module-federation-4j1i
+- https://medium.com/swlh/webpack-5-module-federation-a-game-changer-to-javascript-architecture-bcdd30e02669
+- https://medium.com/@ScriptedAlchemy/webpack-5-module-federation-stitching-two-simple-bundles-together-fe4e6a069716
+
+---
+
+## mina-webpack
+
+- https://github.com/tinajs/mina-webpack
+- https://segmentfault.com/a/1190000022023433
+
+---
+
+# Q&A

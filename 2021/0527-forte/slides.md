@@ -1,63 +1,266 @@
 ---
-# try also 'default' to start simple
 theme: seriph
-# random image from a curated Unsplash collection by Anthony
-# like them? see https://unsplash.com/collections/94734566/slidev
-background: https://source.unsplash.com/collection/94734566/1920x1080
-# apply any windi css classes to the current slide
+background: https://source.unsplash.com/qDgTQOYk6B8/1920x1080
 class: 'text-center'
-# https://sli.dev/custom/highlighters.html
 highlighter: shiki
-# some information about the slides, markdown enabled
 info: |
-  ## Slidev Starter Template
-  Presentation slides for developers.
-
-  Learn more at [Sli.dev](https://sli.dev)
+  ## Introducting Forte
 ---
 
-# Welcome to Slidev
+# Forte
 
-Presentation slides for developers
+Schema-driven React form engine
 
-<div class="pt-12">
-  <span @click="$slidev.nav.next" class="px-2 p-1 rounded cursor-pointer" hover="bg-white bg-opacity-10">
-    Press Space for next page <carbon:arrow-right class="inline"/>
-  </span>
+<!--
+一个强模型驱动的 React 表单引擎，为解藕和复用而设计。
+-->
+
+---
+layout: quote
+
+---
+
+# Controlled Component 
+
+> In HTML, form elements such as `<input>`, `<textarea>`, and `<select>` typically maintain their own state and update it based on user input. In React, mutable state is typically kept in the state property of components, and only updated with setState().  
+> We can combine the two by making the React state be the “single source of truth”. Then the React component that renders a form also controls what happens in that form on subsequent user input.
+
+[Read more](https://reactjs.org/docs/forms.html#controlled-components)
+
+---
+
+# Controlled Component 
+
+<div class="grid grid-cols-2 gap-x-4"><div>
+
+### Native Controlled Component
+
+```tsx {9-11}
+const Search = ({ onSearch }) => {
+  const [keyword, setKeyword] = React.useState('')
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    onSearch({ keyword })
+  }
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        value={keyword}
+        onChange={e => setKeyword(e.target.value)} />
+    </form>
+  )
+}
+```
+
+</div><div v-click>
+
+### RC-Field-Form
+
+```tsx {8-10}
+import { Form, Field } from 'rc-field-form'
+
+const Search = ({ onSearch }) => {
+  const handleFinish = ({ keyword }) =>
+    onSearch({ keyword })
+  return (
+    <Form onFinish={handleFinish}>
+      <Field name="keyword" rules={rules}>
+        <input />
+      </Field>
+    </Form>
+  )
+}
+```
+
+</div></div><div v-click>
+
+
+```tsx {4}
+const Field = ({ name,  children }) => {
+  const form = React.useContext(FormContext)
+  const { value, onChange } = form.control(name)
+  return React.cloneElement(children, { value, onChange })
+}
+```
+
 </div>
 
-<a href="https://github.com/slidevjs/slidev" target="_blank" alt="GitHub"
-  class="abs-br m-6 text-xl icon-btn opacity-50 !border-none !hover:text-white">
-  <carbon-logo-github />
-</a>
-
 <!--
-The last comment block of each slide will be treated as slide notes. It will be visible and editable in Presenter Mode along with the slide. [Read more in the docs](https://sli.dev/guide/syntax.html#notes)
+回顾 Controlled Component  
+在该设定背景下业界通常会如何优化代码?  
+最符合直觉的思路是结合 CloneElememt API 向受控组件自动注入 value & onChange, 实现表单内各字段的集中管理
 -->
 
 ---
 
-# What is Slidev?
+# Problems encountered in real-world scenarios
 
-Slidev is a slides maker and presenter designed for developers, consist of the following features
+```tsx {all|5|4|10|all}
+export const ServiceForm = () => {
+  return (
+    <Form>
+      {(form) => {
+        const isHealthCheckEnabled = form.getFieldValue(['healthCheck', 'isEnabled'])
+        return <>
+          <Field name={['healthCheck', 'isEnabled']} label="心跳上报">
+            <Switch />
+          </Field>
+          {isHealthCheckEnabled && (
+            <Field name={['healthCheck', 'ttl']} label="TTL (秒)">
+              <Input placeholder="请输入心跳上报 TTL 秒数" />
+            </Field>
+          )}
+        </>
+      }}
+    </Form>
+  )
+}
+```
 
-- 📝 **Text-based** - focus on the content with Markdown, and then style them later
-- 🎨 **Themable** - theme can be shared and used with npm packages
-- 🧑‍💻 **Developer Friendly** - code highlighting, live coding with autocompletion
-- 🤹 **Interactive** - embedding Vue components to enhance your expressions
-- 🎥 **Recording** - built-in recording and camera view
-- 📤 **Portable** - export into PDF, PNGs, or even a hostable SPA
-- 🛠 **Hackable** - anything possible on a webpage
+<div v-click>
 
-<br>
-<br>
+Render-Props will slow down rendering as the number of child nodes increases.
 
-Read more about [Why Slidev?](https://sli.dev/guide/why)
+</div>
 
-<!--
-You can have `style` tag in markdown to override the style for the current page.
-Learn more: https://sli.dev/guide/syntax#embedded-styles
--->
+---
+
+# Problems encountered in real-world scenarios
+
+```tsx {3|2|all}
+export const ServiceForm = () => {
+  const [form] = useForm()
+  const isHealthCheckEnabled = form.getFieldValue(['healthCheck', 'isEnabled'])
+  return (
+    <Form form={form}>
+      <Field name={['healthCheck', 'isEnabled']} label="心跳上报">
+        <Switch />
+      </Field>
+      {isHealthCheckEnabled && (
+        <Field name={['healthCheck', 'ttl']} label="TTL (秒)">
+          <Input placeholder="请输入心跳上报 TTL 秒数" />
+        </Field>
+      )}
+    </Form>
+  )
+}
+```
+
+<div v-click>
+
+Using the hoisted context to access the form instance won't help either.
+
+</div>
+
+---
+
+# Problems encountered in real-world scenarios
+
+```tsx {11-13|9}
+export const ServiceForm = () => {
+  const [form] = useForm()
+  const isHealthCheckEnabled = form.getFieldValue(['healthCheck', 'isEnabled'])
+  return (
+    <Form form={form}>
+      <Field name={['healthCheck', 'isEnabled']} label="心跳上报">
+        <Switch />
+      </Field>
+      {isHealthCheckEnabled && (
+        <Field name={['healthCheck', 'ttl']} label="TTL (秒)">
+          <Input placeholder="请输入心跳上报 TTL 秒数" rules={[
+            { type: 'number', max: 60, min: 2, transform: v => Number(v) },
+          ]} />
+        </Field>
+      )}
+    </Form>
+  )
+}
+```
+
+<div v-click>
+
+Should we verify fields that are not mounted?
+
+</div>
+
+---
+
+# Problems encountered in real-world scenarios
+
+```tsx {14|2-11|11}
+export const ServiceForm = ({ services }: { services: IService[] }) => {
+  const rules = React.useMemo(() => [
+    () => ({
+      validator: async (_, name) => {
+        if (!services) {
+          return;
+        }
+        assert(services?.every(service => service?.name !== name), `已存在名称为 ${name} 的 Service`);
+      },
+    }),
+  ], [services]);
+  return (
+    <Form>
+      <Field name="name" label="服务名称" rules={rules}>
+        <Input type="text" placeholder="请输入服务名称" />
+      </Field>
+    </Form>
+  )
+};
+```
+
+<div v-click>
+
+How to trigger validation that depends on the state outside the form when the dependency changes?
+
+</div>
+
+---
+
+# Problems encountered in real-world scenarios
+
+
+```tsx {1-7|5|9,11-18|10|10,12,15}
+export const ServiceForm = () => {
+  const [form] = useForm()
+  return <Form form={form}>
+    <BasicForm form={form} />
+    <HealthCheckForm form={form} />
+  </Form>
+}
+
+export const HealthCheckForm = ({ form }: { form: FormInstance }) => {
+  const isEnabled = form.getFieldValue(['healthCheck', 'isEnabled'])
+  return <Body>
+    <Field name={['healthCheck', 'isEnabled']} label="心跳上报">
+      <Switch />
+    </Field>
+    <Field name={['healthCheck', 'ttl']} label="TTL (秒)">
+      <Input placeholder="请输入心跳上报 TTL 秒数" />
+    </Field>
+  </Body>
+}
+```
+
+<div v-click>
+
+Can we omit redundant prefix paths in nested components?
+
+</div>
+
+---
+
+# What is Forte?
+
+Forte is a Schema-driven React form engine, designed for decoupling and componentization.
+
+- 🧩 Schema Driven
+- 🏎️ Performance First
+- 📏 Validation
+- 👯 Efficient List
+- 🪆 Componentization
+- 🪝 React Hooks Integration
+- 🧠 Type Infering
 
 <style>
 h1 {
@@ -72,255 +275,44 @@ h1 {
 </style>
 
 ---
-
-# Navigation
-
-Hover on the bottom-left corner to see the navigation's controls panel, [learn more](https://sli.dev/guide/navigation.html)
-
-### Keyboard Shortcuts
-
-|     |     |
-| --- | --- |
-| <kbd>right</kbd> / <kbd>space</kbd>| next animation or slide |
-| <kbd>left</kbd> | previous animation or slide |
-| <kbd>up</kbd> | previous slide |
-| <kbd>down</kbd> | next slide |
-
-<!-- https://sli.dev/guide/animations.html#click-animations -->
-<img
-  v-click
-  class="absolute -bottom-9 -left-7 w-80 opacity-50"
-  src="https://sli.dev/assets/arrow-bottom-left.svg"
-/>
-<p v-after class="absolute bottom-23 left-45 opacity-30 transform -rotate-10">Here!</p>
-
----
-layout: image-right
-image: https://source.unsplash.com/collection/94734566/1920x1080
+layout: center
 ---
 
-# Code
+# Example
 
-Use code snippets and get the highlighting directly!
+---
 
-<!-- https://sli.dev/guide/syntax.html#line-highlighting -->
+# Big lists are dangerous
 
-```ts {all|2|1-6|9|all}
-interface User {
-  id: number
-  firstName: string
-  lastName: string
-  role: string
+```tsx {all|2|9|3-5|9}
+const App = () => {
+  const [names, setNames] = React.useState<string[]>([])
+  const setName = React.useCallback((value: string, index: number) => {
+    setNames([...names.slice(0, index), value, ...names.slice(index + 1)])
+  }, [names])
+  return (
+    <>
+      {names.map((name, index) => (
+        <Input key={String(index)} value={name} onChange={value => setName(value, index)} />
+      ))}
+    </>
+  )
 }
 
-function updateUser(id: number, update: User) {
-  const user = getUser(id)
-  const newUser = {...user, ...update}  
-  saveUser(id, newUser)
-}
 ```
 
-<arrow v-click="3" x1="400" y1="420" x2="230" y2="330" color="#564" width="3" arrowSize="1" />
+<div v-click>
 
----
-
-# Components
-
-<div grid="~ cols-2 gap-4">
-<div>
-
-You can use Vue components directly inside your slides.
-
-We have provided a few built-in components like `<Tweet/>` and `<Youtube/>` that you can use directly. And adding your custom components is also super easy.
-
-```html
-<Counter :count="10" />
-```
-
-<!-- ./components/Counter.vue -->
-<Counter :count="10" m="t-4" />
-
-Check out [the guides](https://sli.dev/builtin/components.html) for more.
+Since `setName` functions always change with any names change, using key prop does not reduce redundant re-rendering.
 
 </div>
-<div>
-
-```html
-<Tweet id="1390115482657726468" />
-```
-
-<Tweet id="1390115482657726468" scale="0.65" />
-
-</div>
-</div>
-
-
----
-class: px-20
----
-
-# Themes
-
-Slidev comes with powerful theming support. Themes are able to provide styles, layouts, components, or even configurations for tools. Switching between themes by just **one edit** in your frontmatter:
-
-<div grid="~ cols-2 gap-2" m="-t-2">
-
-```yaml
----
-theme: default
----
-```
-
-```yaml
----
-theme: seriph
----
-```
-
-<img border="rounded" src="https://github.com/slidevjs/themes/blob/main/screenshots/theme-default/01.png?raw=true">
-
-<img border="rounded" src="https://github.com/slidevjs/themes/blob/main/screenshots/theme-seriph/01.png?raw=true">
-
-</div>
-
-Read more about [How to use a theme](https://sli.dev/themes/use.html) and
-check out the [Awesome Themes Gallery](https://sli.dev/themes/gallery.html).
-
----
-preload: false
----
-
-# Animations
-
-Animations are powered by [@vueuse/motion](https://motion.vueuse.org/).
-
-```html
-<div
-  v-motion
-  :initial="{ x: -80 }"
-  :enter="{ x: 0 }">
-  Slidev
-</div>
-```
-
-<div class="w-60 relative mt-6">
-  <div class="relative w-40 h-40">
-    <img
-      v-motion
-      :initial="{ x: 800, y: -100, scale: 1.5, rotate: -50 }"
-      :enter="final"
-      class="absolute top-0 left-0 right-0 bottom-0"
-      src="https://sli.dev/logo-square.png"
-    />
-    <img
-      v-motion
-      :initial="{ y: 500, x: -100, scale: 2 }"
-      :enter="final"
-      class="absolute top-0 left-0 right-0 bottom-0"
-      src="https://sli.dev/logo-circle.png"
-    />
-    <img
-      v-motion
-      :initial="{ x: 600, y: 400, scale: 2, rotate: 100 }"
-      :enter="final"
-      class="absolute top-0 left-0 right-0 bottom-0"
-      src="https://sli.dev/logo-triangle.png"
-    />
-  </div>
-
-  <div 
-    class="text-5xl absolute top-14 left-40 text-[#2B90B6] -z-1"
-    v-motion
-    :initial="{ x: -80, opacity: 0}"
-    :enter="{ x: 0, opacity: 1, transition: { delay: 2000, duration: 1000 } }">
-    Slidev
-  </div>
-</div>
-
-<!-- vue script setup scripts can be directly used in markdown, and will only affects current page -->
-<script setup lang="ts">
-const final = {
-  x: 0,
-  y: 0,
-  rotate: 0,
-  scale: 1,
-  transition: {
-    type: 'spring',
-    damping: 10,
-    stiffness: 20,
-    mass: 2
-  }
-}
-</script>
-
-<div
-  v-motion
-  :initial="{ x:35, y: 40, opacity: 0}"
-  :enter="{ y: 0, opacity: 1, transition: { delay: 3500 } }">
-
-[Learn More](https://sli.dev/guide/animations.html#motion)
-
-</div>
-
----
-
-# LaTeX
-
-LaTeX is supported out-of-box powered by [KaTeX](https://katex.org/).
-
-<br>
-
-Inline $\sqrt{3x-1}+(1+x)^2$
-
-Block
-$$
-\begin{array}{c}
-
-\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} &
-= \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} & = 4 \pi \rho \\
-
-\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t} & = \vec{\mathbf{0}} \\
-
-\nabla \cdot \vec{\mathbf{B}} & = 0
-
-\end{array}
-$$
-
-<br>
-
-[Learn more](https://sli.dev/guide/syntax#latex)
-
----
-
-# Diagrams
-
-You can create diagrams / graphs from textual descriptions, directly in your Markdown.
-
-<div class="grid grid-cols-2 gap-4 pt-4 -mb-6">
-
-```mermaid {scale: 0.9}
-sequenceDiagram
-    Alice->John: Hello John, how are you?
-    Note over Alice,John: A typical interaction
-```
-
-```mermaid {theme: 'neutral', scale: 0.8}
-graph TD
-B[Text] --> C{Decision}
-C -->|One| D[Result 1]
-C -->|Two| E[Result 2]
-```
-
-</div>
-
-[Learn More](https://sli.dev/guide/syntax.html#diagrams)
 
 
 ---
 layout: center
-class: text-center
 ---
 
 # Learn More
 
-[Documentations](https://sli.dev) / [GitHub Repo](https://github.com/slidevjs/slidev)
+- [Repo](https://git.woa.com/yelozyhuang/forte)
+- [TKEx-CSIG](https://git.woa.com/STKE/tkex-web) 

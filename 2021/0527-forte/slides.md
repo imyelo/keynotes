@@ -309,6 +309,62 @@ Since `setName` functions always change with any names change, using key prop do
 
 
 ---
+
+# Proxy List
+
+![](/images/native-list-change-performance.png)
+
+<div v-click>
+
+![](/images/forte-list-change-performance.png)
+
+</div>
+
+---
+
+# Using Hooks with Subscription
+
+<div class="grid grid-cols-2 gap-x-4"><div>
+
+![](/images/get-value-from-context.png)
+
+</div><div><div v-click>
+
+![](/images/get-value-from-hooks.png)
+
+</div></div></div>
+
+---
+
+# EventEmitter, Sync or Async
+
+[sindresorhus/emittery](https://github.com/sindresorhus/emittery)
+
+<div v-click>
+
+![](/images/sync-validation.png)
+
+</div>
+
+<div v-click>
+
+![](/images/async-validation.png)
+
+</div>
+
+---
+
+# Type Infering
+
+[TypeScript 4.1 - Template Literal Types](https://www.typescriptlang.org/docs/handbook/2/template-literal-types.html)
+
+<div v-click>
+
+![](/images/type-infering.png)
+
+</div>
+
+---
 layout: center
 ---
 

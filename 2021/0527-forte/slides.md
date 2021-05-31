@@ -277,7 +277,7 @@ h1 {
 
 # Basic Usage
 
-```ts {all|3-6|13,17|14-15|9,13,17}
+```tsx {all|3-6|13,17|14-15|9,13,17}
 import { Form, Field, Schema as S } from '@yelo/forte'
 
 const FormSchema = S.Form({
@@ -306,7 +306,7 @@ export const App = () => {
 
 <div class="grid grid-cols-2 gap-x-2"><div><div v-click>
 
-```ts
+```tsx
 import { FormScope, Field, S } from '@yelo/forte'
 import { PolarisFormSchema, PolarisForm } from './polaris'
 
@@ -334,7 +334,7 @@ export const ServiceForm = () => {
 
 </div></div><div>
 
-```ts
+```tsx
 import { Field, S } from '@yelo/forte'
 
 export const PolarisFormSchema = S.Form({
@@ -362,7 +362,7 @@ export const PolarisForm = () => {
 
 # Validation
 
-```ts
+```tsx
 export const ServiceFormSchema = S.Scope({
   name: S.Field<string>({
     defaultValue: '',
@@ -372,14 +372,14 @@ export const ServiceFormSchema = S.Scope({
       ['string/pattern', [/^[a-z]([-a-z0-9]*[a-z0-9])?$/]],
     ],
   }),
-});
+})
 ```
 
 ---
 
 # Validation
 
-```ts {all|2,8-18|2,8}
+```tsx {all|2,8-18|2,8}
 export const ServiceFormSchema = S.Scope({
   name: S.Field<string, [IService[], INamespace]>({
     defaultValue: '',
@@ -396,11 +396,60 @@ export const ServiceFormSchema = S.Scope({
               service?.namespace?.cluster?.id === namespace?.cluster?.id
           ),
           `同集群同命名空间下已存在名称为 ${value} 的 Service`
-        );
+        )
       },
     ],
   }),
-});
+})
+```
+
+---
+
+# Validation
+
+```tsx{all,3,4,8}
+import { Form, Field } from '@yelo/forte'
+
+const ServiceForm = ({ namespace }: { namespace: INamespace }) => {
+  const { services } = React.useContext(ServicesContext)
+
+  return (
+    <FormScope>
+      <Field path="name" dependencies={[services, namespace]}>
+        <Input type="text" placeholder="请输入服务名称" />
+      </Field>
+    </FormScope>  
+  )
+}
+```
+
+---
+
+# Validation
+
+```tsx{all|5|10|14}
+import { Form, Field, useForteValue } from '@yelo/forte'
+
+export const ServiceFormSchema = S.Scope({
+  name: S.Field<string, [IService[], INamespace]>({ /** ... */ }),
+  namespace: S.Field<INamespace>({ /** ... */ }),
+})
+
+const ServiceForm = () => {
+  const { services } = React.useContext(ServicesContext)
+  const namespace = useForteValue('namespace')
+
+  return (
+    <FormScope>
+      <Field path="name" dependencies={[services, namespace]}>
+        <Input type="text" placeholder="请输入服务名称" />
+      </Field>
+      <Field path="namespace">
+        <NamespaceSelect />
+      </Field>
+    </FormScope>  
+  )
+}
 ```
 
 ---

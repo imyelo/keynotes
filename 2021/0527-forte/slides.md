@@ -261,7 +261,7 @@ Forte is a Schema-driven React form engine, designed for decoupling and componen
 - 👯 Efficient List
 - 🪆 Componentization
 - 🪝 React Hooks Integration
-- 🧠 Type Infering
+- 💭 Type Infering
 
 <style>
 h1 {
@@ -602,6 +602,79 @@ layout: quote
 </div>
 
 ---
+
+# Which one should I choose?
+
+<div class="grid grid-cols-2 gap-x-4"><div>
+
+<v-click>
+
+## Redux(-like)
+
+### Pros
+
+</v-click>
+
+<v-clicks>
+
+- 🏎️ Good Performance
+
+</v-clicks>
+
+<v-click>
+
+## RC-Field-Form(-like)
+
+### Pros
+
+</v-click>
+
+<v-clicks>
+
+- 🎨 Designed for Form
+
+</v-clicks>
+
+</div><div>
+
+<v-click>
+
+## Forte
+
+### Pros
+
+</v-click>
+
+<v-clicks>
+
+- 🏎️ Good Performance
+- 🎨 Designed for Form
+- 🪆 Componentization
+- 💭 TypeScript Support
+
+</v-clicks>
+
+<v-click>
+
+### Cons
+
+</v-click>
+
+<v-clicks>
+
+- 🧱 Schema Required
+
+</v-clicks>
+
+</div></div>
+
+---
+layout: center
+---
+
+# Example
+
+---
 layout: cover
 background: /images/dogfooding-tkex-service.png
 ---
@@ -613,10 +686,17 @@ Dogfooding
 -->
 
 ---
-layout: center
----
 
-# Example
+# Roadmap
+
+<v-clicks>
+
+- 💂 Higher test coverage *(currently 85%)*
+- 🚌 New EventEmitter Provider
+- 📖 Better Documents
+- 💭 Better Type Infering
+
+</v-clicks>
 
 ---
 layout: center
@@ -625,3 +705,4 @@ layout: center
 # Learn More
 
 - [Repo](https://git.woa.com/yelozyhuang/forte)
+- Document (TODO)

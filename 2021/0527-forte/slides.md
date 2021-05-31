@@ -35,7 +35,7 @@ layout: quote
 
 ### Native Controlled Component
 
-```tsx {9-11}
+```tsx {2,9-11}
 const Search = ({ onSearch }) => {
   const [keyword, setKeyword] = React.useState('')
   const handleSubmit = (e) => {
@@ -72,10 +72,9 @@ const Search = ({ onSearch }) => {
 }
 ```
 
-</div></div><div v-click>
+</div></div><div>
 
-
-```tsx {4}
+```tsx
 const Field = ({ name,  children }) => {
   const form = React.useContext(FormContext)
   const { value, onChange } = form.control(name)
@@ -275,6 +274,136 @@ h1 {
 </style>
 
 ---
+
+# Basic Usage
+
+```ts {all|3-6|13,17|14-15|9,13,17}
+import { Form, Field, Schema as S } from '@yelo/forte'
+
+const FormSchema = S.Form({
+  username: S.Field<string>(),
+  password: S.Field<string>(),
+})
+
+export const App = () => {
+  const handleSubmit = React.useCallback(values => console.log(values), [])
+  return (
+    <>
+      <h3>Login</h3>
+      <Form schema={FormSchema} onSubmit={handleSubmit}>
+        <Field path="username">{control => <input placeholder="Username" {...control} />}</Field>
+        <Field path="password">{control => <input placeholder="Password" type="password" {...control} />}</Field>
+        <input type="submit" />
+      </Form>
+    </>
+  )
+}
+```
+
+---
+
+# Componentization
+
+<div class="grid grid-cols-2 gap-x-2"><div><div v-click>
+
+```ts
+import { FormScope, Field, S } from '@yelo/forte'
+import { PolarisFormSchema, PolarisForm } from './polaris'
+
+const ServiceFormSchema = S.Form({
+  name: S.Field<string>(),
+  polaris: PolarisFormSchema,
+})
+
+export const ServiceForm = () => {
+  const handleSubmit = React.useCallback(values =>
+    console.log(values)
+  , [])
+  return (
+    <Form schema={ServiceFormSchema} onSubmit={handleSubmit}>
+      <Field path="name">{control =>
+        <input placeholder="service name" {...control} />
+      }</Field>
+      <FormScope path="polaris>
+        <PolarisForm />
+      </FormScope>
+    </Form>
+  )
+}
+```
+
+</div></div><div>
+
+```ts
+import { Field, S } from '@yelo/forte'
+
+export const PolarisFormSchema = S.Form({
+  name: S.Field<string>(),
+  token: S.Field<string>(),
+})
+
+export const PolarisForm = () => {
+  return (
+    <>
+      <Field path="name">{control =>
+        <input placeholder="polaris name" {...control} />
+      }</Field>
+      <Field path="token">{control =>
+        <input placeholder="polaris token" {...control} />
+      }</Field>
+    </>
+  )
+}
+```
+
+</div></div>
+
+---
+
+# Validation
+
+```ts
+export const ServiceFormSchema = S.Scope({
+  name: S.Field<string>({
+    defaultValue: '',
+    rules: [
+      ['string/required', []],
+      ['string/max', [1000]],
+      ['string/pattern', [/^[a-z]([-a-z0-9]*[a-z0-9])?$/]],
+    ],
+  }),
+});
+```
+
+---
+
+# Validation
+
+```ts {all|2,8-18|2,8}
+export const ServiceFormSchema = S.Scope({
+  name: S.Field<string, [IService[], INamespace]>({
+    defaultValue: '',
+    rules: [
+      { predicate: ['string/required', []], lazy: true },
+      { predicate: ['string/max', [1000], lazy: true },
+      { predicate: ['string/pattern', [/^[a-z]([-a-z0-9]*[a-z0-9])?$/]], lazy: true },
+      async (value, [services, namespace]) => {
+        assert(
+          !services?.some(
+            service =>
+              service?.name === value &&
+              service?.namespace?.name === namespace?.name &&
+              service?.namespace?.cluster?.id === namespace?.cluster?.id
+          ),
+          `同集群同命名空间下已存在名称为 ${value} 的 Service`
+        );
+      },
+    ],
+  }),
+});
+```
+
+---
 layout: center
 ---
 
@@ -335,6 +464,38 @@ Since `setName` functions always change with any names change, using key prop do
 </div></div></div>
 
 ---
+layout: quote
+---
+
+> - In a UI, it's not necessary for every update to be applied immediately; in fact, doing so can be wasteful, causing frames to drop and degrading the user experience.
+> - Different types of updates have different priorities — an animation update needs to complete more quickly than, say, an update from a data store.
+> - A push-based approach requires the app (you, the programmer) to decide how to schedule work. A pull-based approach allows the framework (React) to be smart and make those decisions for you.
+
+[React Fiber Architecture - Scheduling](https://github.com/acdlite/react-fiber-architecture#scheduling)
+
+---
+
+> Mostly backwards compatibility reasons. The Node.js team can't break the whole ecosystem.
+> 
+> It also allows silly code like this:
+> ```
+> let unicorn = false;
+> 
+> emitter.on('🦄', () => {
+> 	unicorn = true;
+> });
+>
+> emitter.emit('🦄');
+> 
+> console.log(unicorn);
+> //=> true
+> ```
+> 
+> But I would argue doing that shows a deeper lack of Node.js and async comprehension and is not something we should optimize for. The benefit of async emitting is much greater.
+
+[sindresorhus/emittery - Isn't EventEmitter synchronous for a reason?](https://github.com/sindresorhus/emittery#isnt-eventemitter-synchronous-for-a-reason)
+
+---
 
 # EventEmitter, Sync or Async
 
@@ -365,10 +526,20 @@ Since `setName` functions always change with any names change, using key prop do
 </div>
 
 ---
+layout: cover
+background: /images/dogfooding-tkex-service.png
+---
+
+[TKEx-CSIG](https://git.woa.com/STKE/tkex-web)
+
+<!--
+Dogfooding
+-->
+
+---
 layout: center
 ---
 
 # Learn More
 
 - [Repo](https://git.woa.com/yelozyhuang/forte)
-- [TKEx-CSIG](https://git.woa.com/STKE/tkex-web) 

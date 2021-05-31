@@ -167,10 +167,10 @@ export const ServiceForm = () => {
         <Switch />
       </Field>
       {isHealthCheckEnabled && (
-        <Field name={['healthCheck', 'ttl']} label="TTL (秒)">
-          <Input placeholder="请输入心跳上报 TTL 秒数" rules={[
-            { type: 'number', max: 60, min: 2, transform: v => Number(v) },
-          ]} />
+        <Field name={['healthCheck', 'ttl']} label="TTL (秒)" rules={[
+          { type: 'number', max: 60, min: 2, transform: v => Number(v) },
+        ]}>
+          <Input placeholder="请输入心跳上报 TTL 秒数" />
         </Field>
       )}
     </Form>
@@ -326,7 +326,7 @@ export const ServiceForm = () => {
       <Field path="name">{control =>
         <input placeholder="service name" {...control} />
       }</Field>
-      <FormScope path="polaris>
+      <FormScope path="polaris">
         <PolarisForm />
       </FormScope>
     </Form>
@@ -339,7 +339,7 @@ export const ServiceForm = () => {
 ```tsx
 import { Field, S } from '@yelo/forte'
 
-export const PolarisFormSchema = S.Form({
+export const PolarisFormSchema = S.Scope({
   name: S.Field<string>(),
   token: S.Field<string>(),
 })
@@ -456,6 +456,20 @@ const ServiceForm = () => {
 
 ---
 
+# Using Hooks with Subscription
+
+<div class="grid grid-cols-2 gap-x-4"><div>
+
+![](/images/get-value-from-context.png)
+
+</div><div><div v-click>
+
+![](/images/get-value-from-hooks.png)
+
+</div></div></div>
+
+---
+
 # Big lists are dangerous
 
 ```tsx {all|2|9|3-5|9}
@@ -524,20 +538,6 @@ export const App = () => {
   )
 }
 ```
-
----
-
-# Using Hooks with Subscription
-
-<div class="grid grid-cols-2 gap-x-4"><div>
-
-![](/images/get-value-from-context.png)
-
-</div><div><div v-click>
-
-![](/images/get-value-from-hooks.png)
-
-</div></div></div>
 
 ---
 layout: quote

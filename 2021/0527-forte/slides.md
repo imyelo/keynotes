@@ -31,6 +31,18 @@ layout: quote
 
 # Controlled Component 
 
+<div v-click="2">
+
+```tsx
+const Field = ({ name,  children }) => {
+  const form = React.useContext(FormContext)
+  const { value, onChange } = form.control(name)
+  return React.cloneElement(children, { value, onChange })
+}
+```
+
+</div>
+
 <div class="grid grid-cols-2 gap-x-4"><div>
 
 ### Native Controlled Component
@@ -52,7 +64,7 @@ const Search = ({ onSearch }) => {
 }
 ```
 
-</div><div v-click>
+</div><div v-click="1">
 
 ### RC-Field-Form
 
@@ -72,17 +84,7 @@ const Search = ({ onSearch }) => {
 }
 ```
 
-</div></div><div>
-
-```tsx
-const Field = ({ name,  children }) => {
-  const form = React.useContext(FormContext)
-  const { value, onChange } = form.control(name)
-  return React.cloneElement(children, { value, onChange })
-}
-```
-
-</div>
+</div></div>
 
 <!--
 回顾 Controlled Component  
@@ -360,7 +362,7 @@ export const PolarisForm = () => {
 
 ---
 
-# Validation
+# Validation with builtin predicates
 
 ```tsx
 export const ServiceFormSchema = S.Scope({
@@ -377,7 +379,7 @@ export const ServiceFormSchema = S.Scope({
 
 ---
 
-# Validation
+# Validation with dependencies
 
 ```tsx {all|2,8-18|2,8}
 export const ServiceFormSchema = S.Scope({
@@ -405,7 +407,7 @@ export const ServiceFormSchema = S.Scope({
 
 ---
 
-# Validation
+# Validation with dependencies
 
 ```tsx{all,3,4,8}
 import { Form, Field } from '@yelo/forte'
@@ -425,7 +427,7 @@ const ServiceForm = ({ namespace }: { namespace: INamespace }) => {
 
 ---
 
-# Validation
+# Validation with dependencies
 
 ```tsx{all|5|10|14}
 import { Form, Field, useForteValue } from '@yelo/forte'
@@ -451,12 +453,6 @@ const ServiceForm = () => {
   )
 }
 ```
-
----
-layout: center
----
-
-# Example
 
 ---
 
@@ -615,6 +611,12 @@ background: /images/dogfooding-tkex-service.png
 <!--
 Dogfooding
 -->
+
+---
+layout: center
+---
+
+# Example
 
 ---
 layout: center

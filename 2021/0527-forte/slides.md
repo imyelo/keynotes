@@ -500,6 +500,37 @@ Since `setName` functions always change with any names change, using key prop do
 
 ---
 
+# List Usage
+
+```tsx {all|3-5|7|13,20|14,19|14,16,19|14,17,19|10,12,21,22|all}
+import { Form, Field, FormList, S } from '@yelo/forte'
+
+const FormSchema = S.Form({
+  tags: S.List({ name: S.Field<string>({ defaultValue: '' }) }),
+})
+
+const TagForm = React.memo(() => <Field path="name">{control => <input placeholder="name" {...control} />}</Field>)
+
+export const App = () => {
+  const handleSubmit = React.useCallback(values => console.log('submit', values), [])
+  return (
+    <Form schema={FormSchema} onSubmit={handleSubmit}>
+      <FormList path="tags">
+        {({ map, push }) => (
+          <>
+            {map(() => <TagForm />)}
+            <button type="button" onClick={() => push({ name: '' })}>+ Add</button>
+          </>
+        )}
+      </FormList>
+      <button type="submit">Submit</button>
+    </Form>
+  )
+}
+```
+
+---
+
 # Using Hooks with Subscription
 
 <div class="grid grid-cols-2 gap-x-4"><div>

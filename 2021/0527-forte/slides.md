@@ -498,7 +498,7 @@ Since `setName` functions always change with any names change, using key prop do
 
 ---
 
-# Proxy List
+# List Hijacking 
 
 ![](/images/native-list-change-performance.png)
 
@@ -538,6 +538,9 @@ export const App = () => {
   )
 }
 ```
+
+<arrow x1="500" y1="340" x2="160" y2="368" color="#3b82f6" width="3" />
+<div class="fixed top-80 left-130 text-blue-500 text-lg">No keys requierd</div>
 
 ---
 layout: quote

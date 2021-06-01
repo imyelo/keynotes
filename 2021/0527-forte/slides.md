@@ -539,8 +539,10 @@ export const App = () => {
 }
 ```
 
+<v-clicks>
 <arrow x1="500" y1="340" x2="160" y2="368" color="#3b82f6" width="3" />
 <div class="fixed top-80 left-130 text-blue-500 text-lg">No keys requierd</div>
+</v-clicks>
 
 ---
 layout: quote
@@ -692,14 +694,10 @@ Dogfooding
 
 # Roadmap
 
-<v-clicks>
-
 - 💂 Higher test coverage *(currently 85%)*
 - 🚌 New EventEmitter Provider
 - 📖 Better Documents
 - 💭 Better Type Infering
-
-</v-clicks>
 
 ---
 layout: center

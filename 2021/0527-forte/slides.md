@@ -280,7 +280,7 @@ h1 {
 # Basic Usage
 
 ```tsx {all|3-6|13,17|14-15|9,13,17}
-import { Form, Field, Schema as S } from '@yelo/forte'
+import { Form, Field, Schema as S } from '@fortejs/forte'
 
 const FormSchema = S.Form({
   username: S.Field<string>(),
@@ -309,7 +309,7 @@ export const App = () => {
 <div class="grid grid-cols-2 gap-x-2"><div><div v-click>
 
 ```tsx
-import { FormScope, Field, S } from '@yelo/forte'
+import { FormScope, Field, S } from '@fortejs/forte'
 import { PolarisFormSchema, PolarisForm } from './polaris'
 
 const ServiceFormSchema = S.Form({
@@ -337,7 +337,7 @@ export const ServiceForm = () => {
 </div></div><div>
 
 ```tsx
-import { Field, S } from '@yelo/forte'
+import { Field, S } from '@fortejs/forte'
 
 export const PolarisFormSchema = S.Scope({
   name: S.Field<string>(),
@@ -410,7 +410,7 @@ export const ServiceFormSchema = S.Scope({
 # Validation with dependencies
 
 ```tsx{all,3,4,8}
-import { Form, Field } from '@yelo/forte'
+import { Form, Field } from '@fortejs/forte'
 
 const ServiceForm = ({ namespace }: { namespace: INamespace }) => {
   const { services } = React.useContext(ServicesContext)
@@ -430,7 +430,7 @@ const ServiceForm = ({ namespace }: { namespace: INamespace }) => {
 # Validation with dependencies
 
 ```tsx{all|5|10|14}
-import { Form, Field, useForteValue } from '@yelo/forte'
+import { Form, Field, useForteValue } from '@fortejs/forte'
 
 export const ServiceFormSchema = S.Scope({
   name: S.Field<string, [IService[], INamespace]>({ /** ... */ }),
@@ -513,7 +513,7 @@ Since `setName` functions always change with any names change, using key prop do
 # List Usage
 
 ```tsx {all|3-5|7|13,20|14,19|14,16,19|14,17,19|10,12,21,22|all}
-import { Form, Field, FormList, S } from '@yelo/forte'
+import { Form, Field, FormList, S } from '@fortejs/forte'
 
 const FormSchema = S.Form({
   tags: S.List({ name: S.Field<string>({ defaultValue: '' }) }),

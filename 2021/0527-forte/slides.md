@@ -259,7 +259,7 @@ Forte is a Schema-driven React form engine, designed for decoupling and componen
 - 🏎️ Performance First
 - 📏 Validation
 - 👯 Efficient List
-- 🪆 Componentization
+- 🪆 Scope Componentization
 - 🪝 React Hooks Integration
 - 💭 Type Infering
 
@@ -706,4 +706,5 @@ layout: center
 # Learn More
 
 - [Repo](https://git.woa.com/yelozyhuang/forte)
-- Document (TODO)
+- [Document (WIP)](https://www.notion.so/imyelo/Guide-387c3c259723497f8ad480ab6b153c34)
+  

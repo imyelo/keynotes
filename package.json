@@ -11,7 +11,7 @@
   "workspaces": [
     "2020/0417-design-a-neat-form",
     "2020/1023-webpack-5",
-    "2021/0527-forte"
+    "2021/0527-forte-introducing"
   ],
   "scripts": {
     "build": "ultra --no-pretty -r build && node ./scripts/build.mjs",

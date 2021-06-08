@@ -10,5 +10,8 @@
     "@slidev/theme-default": "*",
     "@slidev/theme-seriph": "*"
   },
-  "name": "0527-forte"
+  "name": "0527-forte",
+  "devDependencies": {
+    "playwright-chromium": "^1.11.1"
+  }
 }

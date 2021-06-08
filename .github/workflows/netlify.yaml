@@ -2,7 +2,7 @@ name: Release to Netlify
 
 on:
   push:
-    branches: [ release ]
+    branches: [ master ]
   workflow_dispatch:
 
 jobs:

@@ -1,5 +1,6 @@
 {
   "name": "2021-05-27-forte-introducing",
+  "version": "0.0.0",
   "private": true,
   "scripts": {
     "dev": "slidev --open",

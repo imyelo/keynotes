@@ -3,7 +3,8 @@ import { fileURLToPath } from "url";
 import { resolve, join } from "path";
 import { readPackageAsync } from "read-pkg";
 
-const root = resolve(fileURLToPath(import.meta.url), "../..");
+const scriptsDir = resolve(fileURLToPath(import.meta.url), "..");
+const root = resolve(scriptsDir, "..");
 const distDir = join(root, "dist");
 
 const main = async () => {
@@ -16,6 +17,8 @@ const main = async () => {
     const projectPackage = await readPackageAsync({ cwd: projectDir });
     await fs.move(join(projectDir, "dist"), join(distDir, projectPackage.name));
   }
+
+  await fs.copy(join(scriptsDir, "CNAME"), join(distDir, 'CNAME'));
 };
 
 main();

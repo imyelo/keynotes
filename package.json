@@ -1,0 +1,26 @@
+{
+  "name": "keynotes",
+  "version": "0.0.0",
+  "private": "true",
+  "repository": "git@github.com:imyelo/keynotes.git",
+  "author": "yelo <zhihuzeye@gmail.com>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14"
+  },
+  "workspaces": [
+    "2020/0417-design-a-neat-form",
+    "2020/1023-webpack-5",
+    "2021/0527-forte"
+  ],
+  "scripts": {
+    "build": "ultra --no-pretty -r build && node ./scripts/build.mjs",
+    "deploy": "yarn build && gh-pages -d dist"
+  },
+  "devDependencies": {
+    "fs-extra": "^10.0.0",
+    "gh-pages": "^3.2.0",
+    "read-pkg": "^6.0.0",
+    "ultra-runner": "^3.10.5"
+  }
+}

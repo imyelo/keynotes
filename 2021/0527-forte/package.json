@@ -1,8 +1,9 @@
 {
+  "name": "2021-05-27-forte-introducing",
   "private": true,
   "scripts": {
     "dev": "slidev --open",
-    "build": "slidev build",
+    "build": "slidev build --base /2021-05-27-forte-introducing",
     "export": "slidev export"
   },
   "dependencies": {
@@ -10,7 +11,6 @@
     "@slidev/theme-default": "*",
     "@slidev/theme-seriph": "*"
   },
-  "name": "0527-forte",
   "devDependencies": {
     "playwright-chromium": "^1.11.1"
   }

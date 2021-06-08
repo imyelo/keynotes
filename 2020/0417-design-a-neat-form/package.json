@@ -1,12 +1,13 @@
 {
   "private": true,
-  "name": "0417-design-a-neat-form",
+  "name": "2020-04-17-design-a-neat-form",
   "version": "0.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "mdx-deck ./notes/index.mdx",
-    "build": "mdx-deck build ./notes/index.mdx"
+    "clean": "rm -rf public dist .cache",
+    "start": "yarn clean && gatsby develop",
+    "build": "yarn clean && gatsby build --prefix-paths && mv public dist"
   },
   "keywords": [],
   "author": "",
@@ -23,5 +24,10 @@
     "react-loadable": "^5.5.0",
     "react-syntax-highlighter": "^12.2.1",
     "styled-components": "^5.1.0"
+  },
+  "devDependencies": {
+    "gatsby": "^2.17.15",
+    "gatsby-plugin-compile-es6-packages": "^2.1.0",
+    "gatsby-theme-mdx-deck": "^3.0.13"
   }
 }

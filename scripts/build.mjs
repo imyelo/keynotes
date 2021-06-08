@@ -11,14 +11,19 @@ const main = async () => {
   await fs.ensureDir(distDir);
   await fs.emptyDir(distDir);
   const pkg = await readPackageAsync({ cwd: root });
+  const redirects = []
 
   for (let path of pkg.workspaces) {
     const projectDir = join(root, path);
     const projectPackage = await readPackageAsync({ cwd: projectDir });
-    await fs.move(join(projectDir, "dist"), join(distDir, projectPackage.name));
+    const name = projectPackage.name;
+    const targetDir = join(distDir, name);
+    await fs.move(join(projectDir, "dist"), targetDir);
+    redirects.push(`/${name}/*\t/${name}/index.html\t200`)
   }
 
   await fs.copy(join(scriptsDir, "CNAME"), join(distDir, 'CNAME'));
+  await fs.writeFile(join(distDir, '_redirects'), redirects.join('\n'), 'utf8')
 };
 
 main();

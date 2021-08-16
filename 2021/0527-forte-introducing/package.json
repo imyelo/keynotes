@@ -1,10 +1,10 @@
 {
-  "name": "2021-05-27-forte-introducing",
+  "name": "forte-introducing",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "dev": "slidev --open",
-    "build": "slidev build --base /2021-05-27-forte-introducing",
+    "build": "slidev build --base /forte-introducing",
     "export": "slidev export"
   },
   "dependencies": {

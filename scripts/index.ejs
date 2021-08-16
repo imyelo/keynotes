@@ -25,11 +25,12 @@
     <div class="container">
       <h1>Public Slides</h1>
       <ul>
-        <% names.forEach((name) => { %>
+        <% config.slides.forEach((slide) => { %>
           <li>
-            <a href="/<%= name %>" target="_blank">
-              <%= name %>
+            <a href="/<%= outputPaths.get(slide.root) %>" target="_blank">
+              <%= slide.title %>
             </a>
+            <span style="color: #aaa; padding-left: 1em;"> <%= slide.date %></span>
           </li>
         <% }) %>
       </ul>

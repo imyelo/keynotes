@@ -22,21 +22,12 @@
   </head>
 
   <body class="hack">
-    <div class="container">
-      <h1>Public Slides</h1>
-      <ul>
-        <% config.slides.forEach((slide) => { %>
-          <li>
-            <a href="/<%= outputPaths.get(slide.root) %>" target="_blank">
-              <%= slide.title %>
-            </a>
-            <span style="color: #aaa; padding-left: 1em;"> <%= slide.date %></span>
-          </li>
-        <% }) %>
-      </ul>
-      <footer>
-        <p><a href="https://yelo.cc/" target="_blank">&copy; Yelo</a></p>
-      </footer>
-    </div>
+    <a href="https://talks.yelo.cc/">Redirecting to Talks</a>
   </body>
+
+  <script>
+    ;(function () {
+      window.location.href = 'https://talks.yelo.cc/'
+    })()
+  </script>
 </html>
